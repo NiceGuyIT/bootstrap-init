@@ -2,12 +2,14 @@
 # Disable line length rule because Docker lines commonly exceed the line length.
 # yamllint disable rule:line-length
 
+name: bootstrap-init-syncthing
+
 services:
   syncthing:
     # https://github.com/syncthing/syncthing/blob/main/README-Docker.md
     # https://hub.docker.com/r/syncthing/syncthing
-    image: syncthing/syncthing:1.29.6
-    container_name: "niceguyit-syncthing"
+    image: syncthing/syncthing:latest
+    container_name: "bootstrap-init-syncthing"
     restart: unless-stopped
     # The default timeout is 10s inside the syncthing container.
     # The command is "nc -z 127.0.0.1 8384 || exit 1" as seen by this PR.
@@ -39,19 +41,23 @@ services:
       - target: 8384
         published: 8384
         protocol: "tcp"
-        mode: "bridge"
+        mode: bridge
       # TCP based sync protocol traffic
       - target: 22000
         published: 22000
-        protocol: "tcp"
-        mode: "host"
+        protocol: tcp
+        mode: host
       # QUIC based sync protocol traffic
       - target: 22000
         published: 22000
-        protocol: "udp"
-        mode: "host"
+        protocol: udp
+        mode: host
       # Discovery broadcasts on IPv4 and multicasts on IPv6
       - target: 21027
         published: 21027
-        protocol: "udp"
-        mode: "host"
+        protocol: udp
+        mode: host
+    volumes:
+      - type: bind
+        source: $PWD/../data
+        target: /var/syncthing

@@ -5,6 +5,11 @@ tmp/
 nebula-secrets.yml
 nebula-variables.yml
 
+# How to ignore all files in a directory except certain files.
+# https://stackoverflow.com/questions/7229885/what-are-the-differences-between-gitignore-and-gitkeep
+data/*
+!data/.gitkeep
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/jetbrains
 # Edit at https://www.toptal.com/developers/gitignore?templates=jetbrains
